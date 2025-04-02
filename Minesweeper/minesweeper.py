@@ -1,4 +1,5 @@
 import random
+import re
 
 class Board:
     def __init__(self, dim_size, num_bombs):
@@ -6,6 +7,7 @@ class Board:
         self.num_bombs=num_bombs
         self.board=self.make_new_board()
         self.dug=set()
+    
     def make_new_board(self):
         board=[[None for _ in range(self.dim_size)] for _ in range(self.dim_size)]
         bombs_planted=0
@@ -89,10 +91,33 @@ class Board:
             string_rep += ' |'.join(cells)
             string_rep += ' \n'
         
-        str
+        str_len = int(len(string_rep) / self.dim_size)
+        string_rep = indices_row + '-'*str_len + '\n' + string_rep + '-'*str_len
 
-
+        return string_rep
 
 def play(dim_size=10, num_bombs=10):
     board=Board(dim_size, num_bombs)
-    pass
+
+    safe=True
+    while len(board.dug)<board.dim_size**2-num_bombs:
+        print(board)
+        user_input=re.split(',(\\s)*', input('Where would you like to dig? Input a row, col: '))
+        row, col=int(user_input[0]), int(user_input[-1])
+        if row<0 or row>=board.dim_size or col<0 or col>=dim_size:
+            print('Invalid location. Try again.')
+            continue
+        
+        safe=board.dig(row, col)
+        if not safe:
+            break
+    
+    if safe:
+        print('CONGRATULATIONS!!!! YOU ARE VICTORIOUS!')
+    else:
+        print('SORRY GAME OVER :(')
+        board.dug=[(r, c) for r in range(board.dim_size) for c in range(board.dim_size)]
+        print(board)
+    
+if __name__=='__main__':
+    play()    
