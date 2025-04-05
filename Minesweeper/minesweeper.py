@@ -100,11 +100,16 @@ def play(dim_size=10, num_bombs=10):
         if not safe:
             break
     if safe:
-        print("CONGRATULATIONS!!!! YOU ARE VICTORIOUS!\n")
+        print("🎉 CONGRATULATIONS!!!! YOU ARE VICTORIOUS!\n")
     else:
-        print("SORRY GAME OVER :(\n")
+        print("💥 SORRY GAME OVER :(\n")
         board.dug = [(r,c) for r in range(board.dim_size) for c in range(board.dim_size)]
         print(board)
 
 if __name__ == '__main__':
-    play()
+    while True:
+        play()
+        again = input("Play again? (y/n): ")
+        if again.lower() != 'y':
+            print("👋 Thanks for playing Minesweeper!")
+            break
