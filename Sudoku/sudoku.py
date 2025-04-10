@@ -46,3 +46,5 @@ if __name__ == '__main__':
     ]
     print(solve_sudoku(example_board))
     pprint(example_board)
+
+    print('hello)')
